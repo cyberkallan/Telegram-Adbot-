@@ -96,6 +96,8 @@ pip install pyrogram tgcrypto colorama
 Recommended Python version: 3.9 or higher
 
 ```
+#
+
 ##🔑 Telegram Setup
 1️⃣ Get Telegram API Credentials
 Visit: https://my.telegram.org
@@ -119,7 +121,10 @@ API_HASH = "YOUR_API_HASH"
 BOT_TOKEN = "YOUR_BOT_TOKEN"
 OWNER_ID = YOUR_TELEGRAM_USER_ID
 
-##🚀 Running CK AdBot
+```
+#
+
+##Running CK AdBot
 Copy code
 Bash
 python cyberkallan.py
