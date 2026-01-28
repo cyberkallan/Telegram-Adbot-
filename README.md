@@ -64,7 +64,8 @@ The tool is designed to work smoothly on **Linux, VPS, and Termux**, while allow
 
 📩 **To obtain a licence key, contact:**  
 👉 **@imarjunarz on Instagram**
-Free Now : 🔑ARJUNARZ123
+
+-Free Now : 🔑ARJUNARZ123
 ---
 
 ## 🛠️ Tech Stack
