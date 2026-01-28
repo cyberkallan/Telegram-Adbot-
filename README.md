@@ -125,12 +125,11 @@ OWNER_ID = YOUR_TELEGRAM_USER_ID
 #
 
 ##Running CK AdBot
-Copy code
 Bash
 python cyberkallan.py
 Startup Flow
-Copy code
-
+```
+#
 CK AdBot by cyberkallan
 Secure Automation Tool
 
