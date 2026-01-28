@@ -14,6 +14,9 @@
 </p>
 
 ---
+<p align="center">
+  <img src="https://i.ibb.co/6cv5XF8B/IMG-20260128-202740.png" alt="CK AdBot Banner" width="600">
+</p>
 
 ## 🔥 Overview
 
