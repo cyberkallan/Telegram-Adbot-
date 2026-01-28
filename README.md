@@ -82,3 +82,82 @@ The tool is designed to work smoothly on **Linux, VPS, and Termux**, while allow
 sudo apt update
 sudo apt install python3 python3-pip -y
 pip3 install pyrogram tgcrypto colorama
+
+## Termux (Android)
+Copy code
+Bash
+pkg update && pkg upgrade
+pkg install python -y
+pip install pyrogram tgcrypto colorama
+Recommended Python version: 3.9 or higher
+
+##🔑 Telegram Setup
+1️⃣ Get Telegram API Credentials
+Visit: https://my.telegram.org
+Login → API development tools
+Copy:
+API ID
+API Hash
+2️⃣ Create Telegram Bot
+Open @BotFather
+Create a new bot
+Copy the Bot Token
+3️⃣ Get Your Telegram User ID
+Use @userinfobot
+Copy your numeric user ID
+⚙️ Configuration
+Edit the following values inside the script before running:
+API_ID = YOUR_API_ID
+API_HASH = "YOUR_API_HASH"
+
+BOT_TOKEN = "YOUR_BOT_TOKEN"
+OWNER_ID = YOUR_TELEGRAM_USER_ID
+
+##🚀 Running CK AdBot
+Copy code
+Bash
+python ck_adbot.py
+Startup Flow
+Copy code
+
+CK AdBot by cyberkallan
+Secure Automation Tool
+
+##Enter Licence Key:
+🤖 Telegram Bot Control Panel Commands
+⚠️ Only the OWNER_ID can use these commands
+📤 Broadcast Message
+Copy code
+Text
+/broadcast Hello everyone!
+🔁 Forward Saved Message
+Copy code
+Text
+/forward
+🛑 Stop Current Task
+Copy code
+Text
+/stop
+📊 Total Joined Groups
+Copy code
+Text
+/groups
+📡 Bot Status
+Copy code
+Text
+/status
+➕ Join Group
+Copy code
+Text
+/join https://t.me/examplegroup
+➖ Leave All Groups
+Copy code
+Text
+/leaveall
+##🛡️ Safety Guidelines
+Start with small group counts
+Maintain reasonable delays
+Avoid spammy or repetitive content
+Use /stop for emergency halt
+Never share your API credentials or session files
+
