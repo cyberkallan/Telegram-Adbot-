@@ -1,56 +1,84 @@
-# 🚀 CK AdBot
-### by **cyberkallan**
+<p align="center">
+  <h1 align="center">🚀 CK AdBot</h1>
+  <p align="center">
+    <b>Telegram Automation Tool</b><br>
+    by <b>cyberkallan</b>
+  </p>
+</p>
 
-CK AdBot is a powerful, lightweight Telegram automation tool built with **Pyrogram** and **asyncio**, designed for efficient group management and message broadcasting.
-
-Created by **cyberkallan**, CK AdBot helps automate repetitive Telegram tasks while maintaining control, speed, and simplicity through a clean CLI interface.
-
-> ⚠️ Educational and personal-use tool. Use responsibly and comply with Telegram’s Terms of Service.
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Termux%20%7C%20Linux-blue">
+  <img src="https://img.shields.io/badge/Language-Python-yellow">
+  <img src="https://img.shields.io/badge/Telegram-Pyrogram-blue">
+  <img src="https://img.shields.io/badge/Status-Stable-success">
+</p>
 
 ---
 
-## 🔥 Core Features
+## 🔥 Overview
 
-- 📋 **Smart Group Scraper**
-  - Automatically collects all joined Telegram group IDs
-- 📤 **Auto Message Broadcaster**
-  - Forwards your latest Saved Message to all groups
-  - Custom send count and delay timing
-- ➕ **Auto Group Joiner**
-  - Join any public group via chat ID or invite link
-- ➖ **Bulk Group Exit**
-  - Leave all joined groups instantly
-- 🎨 **Premium CLI Experience**
-  - Color-coded output for success, warnings, and errors
-- 🔐 **Authorization Key Protection**
-  - Prevents unauthorized execution
-- ⚡ **Async Powered**
-  - Fast, efficient, and scalable operations
+**CK AdBot** is a premium, terminal-based Telegram automation tool built using **Pyrogram** and **asyncio**, featuring a **Telegram Bot Control Panel** and a **secure licence-based startup system**.
+
+The tool is designed to work smoothly on **Linux, VPS, and Termux**, while allowing full Telegram group automation controlled directly from Telegram itself.
+
+> ⚠️ This project is intended for educational and personal automation purposes only. Use responsibly and follow Telegram’s Terms of Service.
+
+---
+
+## ✨ Key Features
+
+- 🔐 Licence-protected startup
+- 🤖 Telegram bot control panel
+- 📤 Broadcast custom messages to all joined groups
+- 🔁 Forward last saved message automatically
+- ➕ Join groups via invite link or username
+- ➖ Leave all joined groups instantly
+- 🛑 Emergency stop command
+- 👑 Owner-only command execution
+- ⚡ Async, fast, and FloodWait-safe
+- 🖥️ Fully terminal & Termux friendly
+- 🛡️ Stable and lightweight design
 
 ---
 
 ## 🧠 How CK AdBot Works
 
-1. Authenticates using your Telegram **API ID** and **API Hash**
-2. Scans all joined dialogs and filters group chats
-3. Fetches the latest message from **Saved Messages**
-4. Broadcasts safely with delay handling
-5. Performs bulk join and leave operations
+1. Run CK AdBot from terminal or Termux  
+2. Enter a **valid licence key**  
+3. The tool starts:
+   - Telegram **user account session**
+   - Telegram **bot control panel**
+4. All automation is controlled via Telegram bot commands  
+5. Messages are sent using your **Telegram user account**, not the bot
+
+---
+
+## 🔐 Licence Information
+
+- CK AdBot requires a **valid licence key** to start
+- Licence verification happens at tool startup
+- If the key is invalid, the tool will exit automatically
+
+📩 **To obtain a licence key, contact:**  
+👉 **@imarjunarz on Instagram**
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Python 3.8+**
-- **Pyrogram**
-- **asyncio**
-- **colorama**
+- Python 3.8+
+- Pyrogram
+- asyncio
+- tgcrypto
+- colorama
 
 ---
 
 ## 📦 Installation
 
-### Clone Repository
+### 🐧 Linux / VPS
+
 ```bash
-git clone https://github.com/yourusername/ck-adbot.git
-cd ck-adbot
+sudo apt update
+sudo apt install python3 python3-pip -y
+pip3 install pyrogram tgcrypto colorama
