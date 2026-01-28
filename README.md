@@ -85,15 +85,17 @@ The tool is designed to work smoothly on **Linux, VPS, and Termux**, while allow
 sudo apt update
 sudo apt install python3 python3-pip -y
 pip3 install pyrogram tgcrypto colorama
-
+```
+#
 ## Termux (Android)
-Copy code
-Bash
+
+```Bash
 pkg update && pkg upgrade
 pkg install python -y
 pip install pyrogram tgcrypto colorama
 Recommended Python version: 3.9 or higher
 
+```
 ##🔑 Telegram Setup
 1️⃣ Get Telegram API Credentials
 Visit: https://my.telegram.org
@@ -108,7 +110,8 @@ Copy the Bot Token
 3️⃣ Get Your Telegram User ID
 Use @userinfobot
 Copy your numeric user ID
-⚙️ Configuration
+#
+##⚙️ Configuration
 Edit the following values inside the script before running:
 API_ID = YOUR_API_ID
 API_HASH = "YOUR_API_HASH"
