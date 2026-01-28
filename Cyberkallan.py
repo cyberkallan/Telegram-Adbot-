@@ -1,99 +1,221 @@
-from pyrogram import Client
+"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ CK AdBot v3.2
+ Telegram Bot Control Panel
+ Author : cyberkallan
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+
 import asyncio
+from pyrogram import Client, filters, idle
+from pyrogram.errors import FloodWait
 from colorama import Fore, Style, init
+
+# ──────────────────────────────
+# INIT
+# ──────────────────────────────
 init(autoreset=True)
 
-async def get_chat_ids(app):
-    chat_ids = []
-    async for dialog in app.get_dialogs():
-        chat_ids.append(dialog.chat.id)
-        chat_ids = [str(chat_id) for chat_id in chat_ids if str(chat_id).startswith('-')]
-        chat_ids = [int(chat_id) for chat_id in chat_ids]
-    return chat_ids
+# ──────────────────────────────
+# LICENCE CONFIG
+# ──────────────────────────────
+LICENSE_KEY = "ARJUNARZ123"
+MAX_ATTEMPTS = 3
 
-async def send_last_message_to_groups(app, timee, numtime, chat_ids):
-    async for message in app.get_chat_history('me', limit=1):
-        last_message = message.id
+# ──────────────────────────────
+# TELEGRAM CONFIG (EDIT THESE)
+# ──────────────────────────────
+API_ID = 123456          # your api id
+API_HASH = "API_HASH"    # your api hash
 
-    for i in range(numtime):
-        for chat_id in chat_ids:
-            try:
-                await app.forward_messages(chat_id, "me", last_message)
-                print(f"{Fore.GREEN}Message sent to chat_id {chat_id}")
-                await asyncio.sleep(2)
-            except Exception as e:
-                print(f"{Fore.RED}Failed to send message to chat_id {chat_id}: {e}")
-            await asyncio.sleep(5)
-        await asyncio.sleep(timee)
+BOT_TOKEN = "BOT_TOKEN" # telegram bot token
+OWNER_ID = 123456789    # your telegram user id
 
-async def leave_chats(app, chat_ids):
-    for chat_id in chat_ids:
-        try:
-            await app.leave_chat(chat_id)
-            print(f"{Fore.CYAN}Left chat_id {chat_id}")
-        except Exception as e:
-            print(f"{Fore.RED}Failed to leave chat_id {chat_id}: {e}")
+SESSION_NAME = "ck_adbot_user"
 
-async def join_group(app, chat_id):
-    try:
-        await app.join_chat(chat_id)
-        print(f"{Fore.MAGENTA}Joined chat_id {chat_id}")
-    except Exception as e:
-        print(f"{Fore.RED}Failed to join chat_id {chat_id}: {e}")
+DELAYS = {
+    "message": 3,
+    "group": 6,
+}
 
-async def main():
-    api_id = int(input("Enter api id: "))
-    api_hash = input("enter api_hash: ")
-    app = Client("my_account", api_id, api_hash)
-    await app.start()
+# ──────────────────────────────
+running = False
 
-    while True:
+# CLIENTS
+user = Client(SESSION_NAME, API_ID, API_HASH)
+bot = Client("ck_adbot_bot", bot_token=BOT_TOKEN)
 
-        a = int(input(
-            f"{Style.BRIGHT}{Fore.YELLOW}1. Scrape Group List\n2. AutoSender\n3. Auto Group Joiner\n4. Leave all groups\n5. Exit\nEnter the choice: {Style.RESET_ALL}"
-        ))
+# ──────────────────────────────
+# LICENCE LOGIN
+# ──────────────────────────────
+def license_login():
+    print(Fore.CYAN + Style.BRIGHT + "\n🔐 CK AdBot Licence Verification\n")
 
-        if a == 1:
-            chat_ids = await get_chat_ids(app)
-            print(f"{Fore.CYAN}Group IDs: {chat_ids}")
+    for _ in range(MAX_ATTEMPTS):
+        key = input("Enter Licence Key: ").strip()
 
-        elif a == 2:
-            chat_ids = await get_chat_ids(app)
-            numtime = int(input("How many times you want to send the message: "))
-            timee = int(input("Enter the time delay: "))
-            await send_last_message_to_groups(app, timee, numtime, chat_ids)
+        if key == LICENSE_KEY:
+            print(Fore.GREEN + "✅ Licence verified. Access granted.\n")
+            return True
+        else:
+            print(
+                Fore.RED
+                + "❌ Invalid key.\n"
+                + "Please contact: @imarjuarz on Instagram for a valid licence key.\n"
+            )
 
-        elif a == 3:
-            chat_id = input("Enter the Chat ID to join: ")
-            await join_group(app, chat_id)
+    print(Fore.RED + "Too many failed attempts. Exiting.")
+    return False
 
-        elif a == 4:
-            chat_ids = await get_chat_ids(app)
-            await leave_chats(app, chat_ids)
+# ──────────────────────────────
+# HELPERS
+# ──────────────────────────────
+async def get_groups():
+    groups = []
+    async for dialog in user.get_dialogs():
+        if dialog.chat.id < 0:
+            groups.append(dialog.chat.id)
+    return groups
 
-        elif a == 5:
-            await app.stop()
+
+async def broadcast(text=None):
+    global running
+    groups = await get_groups()
+
+    for gid in groups:
+        if not running:
             break
 
+        try:
+            if text:
+                await user.send_message(gid, text)
+            else:
+                async for msg in user.get_chat_history("me", limit=1):
+                    await user.forward_messages(gid, "me", msg.id)
+
+            await asyncio.sleep(DELAYS["message"])
+
+        except FloodWait as fw:
+            await asyncio.sleep(fw.value)
+            continue
+
+        except Exception:
+            continue
+
+        await asyncio.sleep(DELAYS["group"])
+
+# ──────────────────────────────
+# BOT COMMANDS (OWNER ONLY)
+# ──────────────────────────────
+@bot.on_message(filters.command("start") & filters.user(OWNER_ID))
+async def start_cmd(_, m):
+    await m.reply(
+        "🤖 **CK AdBot Control Panel**\n\n"
+        "/broadcast <text>\n"
+        "/forward\n"
+        "/stop\n"
+        "/groups\n"
+        "/status\n"
+        "/join <link>\n"
+        "/leaveall"
+    )
+
+
+@bot.on_message(filters.command("broadcast") & filters.user(OWNER_ID))
+async def broadcast_cmd(_, m):
+    global running
+
+    if len(m.command) < 2:
+        await m.reply("❌ Usage: /broadcast <message>")
+        return
+
+    text = m.text.split(maxsplit=1)[1]
+    running = True
+
+    await m.reply("🚀 Broadcasting started")
+    await broadcast(text)
+
+    running = False
+    await m.reply("✅ Broadcasting completed")
+
+
+@bot.on_message(filters.command("forward") & filters.user(OWNER_ID))
+async def forward_cmd(_, m):
+    global running
+    running = True
+
+    await m.reply("📤 Forwarding saved message")
+    await broadcast()
+
+    running = False
+    await m.reply("✅ Forward completed")
+
+
+@bot.on_message(filters.command("stop") & filters.user(OWNER_ID))
+async def stop_cmd(_, m):
+    global running
+    running = False
+    await m.reply("🛑 All tasks stopped")
+
+
+@bot.on_message(filters.command("groups") & filters.user(OWNER_ID))
+async def groups_cmd(_, m):
+    groups = await get_groups()
+    await m.reply(f"📊 Total joined groups: {len(groups)}")
+
+
+@bot.on_message(filters.command("status") & filters.user(OWNER_ID))
+async def status_cmd(_, m):
+    await m.reply(f"🟢 Running: {running}")
+
+
+@bot.on_message(filters.command("join") & filters.user(OWNER_ID))
+async def join_cmd(_, m):
+    if len(m.command) < 2:
+        await m.reply("❌ Usage: /join <link or username>")
+        return
+
+    link = m.text.split(maxsplit=1)[1]
+
+    try:
+        await user.join_chat(link)
+        await m.reply("➕ Joined successfully")
+    except Exception as e:
+        await m.reply(f"❌ Join failed: {e}")
+
+
+@bot.on_message(filters.command("leaveall") & filters.user(OWNER_ID))
+async def leaveall_cmd(_, m):
+    groups = await get_groups()
+
+    for gid in groups:
+        try:
+            await user.leave_chat(gid)
+            await asyncio.sleep(2)
+        except Exception:
+            continue
+
+    await m.reply("👋 Left all groups")
+
+# ──────────────────────────────
+# RUN
+# ──────────────────────────────
+async def main():
+    await user.start()
+    await bot.start()
+
+    print(Fore.GREEN + Style.BRIGHT + "CK AdBot Control Panel is LIVE")
+
+    await idle()
+
+
 if __name__ == "__main__":
-    authMain = "M1L2P3O4I5U6Y7"
-    stytext = f"{Fore.CYAN}{Style.BRIGHT}"
-    stytext += '''
-       ##      #  #            #    
- #  #     #  #            #    
- #  #   ###  ###    ##   ###   
- ####  #  #  #  #  #  #   #    
- #  #  #  #  #  #  #  #   #    
- #  #   ###  ###    ##     ##  
-                               
+    print(Fore.CYAN + Style.BRIGHT + """
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CK AdBot by cyberkallan
+   Secure Automation Tool
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
 
-
-    '''
-    authMain1 = "M1L2P3O4I5U6Y7 "
-    print(stytext)
-    authinp = input("Enter the authorization key: ")
-    
-    if authMain == authinp or authMain1 == authinp:
+    if license_login():
         asyncio.run(main())
-    else:
-        print(f"{Fore.RED}Invalid auth key!!\nExiting.....")
